@@ -29,7 +29,15 @@
             font-size: clamp(1.4rem, 4vw, 2.5rem);
             color: #274357;
             margin-bottom: 2vh;
-            transition: color 0.3s ease;
+            transition: color 0.6s ease, transform 0.3s ease;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        #diagram-title.shimmer {
+            animation: shimmer 1.5s ease-in-out;
         }
 
         /* --- Toggle Switch Styling --- */
@@ -130,15 +138,135 @@
             transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        .layer:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+        /* Enhanced hover with smooth mobile support */
+        @media (hover: hover) and (pointer: fine) {
+            .layer:hover {
+                transform: scale(1.03);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+            }
+
+            .layer-1:hover {
+                animation: rippleEffect 1s ease-out;
+            }
         }
 
+        /* Touch-friendly active state for mobile */
+        @media (hover: none) or (pointer: coarse) {
+            .layer:active {
+                transform: scale(0.98);
+                transition: transform 0.1s ease;
+            }
+        }
+
+        /* --- Advanced Keyframe Animations --- */
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7),
+                            0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 15px rgba(255, 255, 255, 0),
+                            0 0 0 7px rgba(255, 255, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 0 30px rgba(255, 255, 255, 0),
+                            0 0 0 15px rgba(255, 255, 255, 0);
+            }
+        }
+
+        @keyframes spiralIn {
+            0% {
+                transform: scale(0) rotate(-360deg);
+                opacity: 0;
+            }
+            60% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes cascadeIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatAndRotate {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotate(2deg);
+            }
+            75% {
+                transform: translateY(-8px) rotate(-2deg);
+            }
+        }
+
+        @keyframes textFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        /* Intro animation states */
+        .intro-animation .layer-3 {
+            animation: spiralIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .intro-animation .layer-2 {
+            animation: cascadeIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+            opacity: 0;
+        }
+
+        .intro-animation .layer-1 {
+            animation: cascadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards,
+                       rippleEffect 2s ease-in-out 2s infinite;
+            opacity: 0;
+        }
+
+        .intro-animation .layer-text {
+            animation: textFadeIn 0.6s ease-out 1.2s forwards;
+            opacity: 0;
+        }
+
+        .intro-animation .layer-text-2 {
+            animation-delay: 1.4s;
+        }
+
+        .intro-animation .layer-text-1 {
+            animation-delay: 1.6s;
         }
 
         /* Layer sizing - using percentages relative to container */
@@ -155,7 +283,16 @@
         .layer-1 {
             width: 40%;
             height: 40%;
-            animation: pulse 2s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            animation: rippleEffect 3s ease-in-out infinite;
+        }
+
+        /* Subtle continuous animation for outer layers */
+        .layer-3 {
+            animation: floatAndRotate 6s ease-in-out infinite;
+        }
+
+        .layer-2 {
+            animation: floatAndRotate 5s ease-in-out infinite 0.5s;
         }
 
         .layer-text {
@@ -194,9 +331,9 @@
 
         /* --- Color Classes: THEM State --- */
         .them-3 {
-            background-color: #F0AB73;
-            border: clamp(3px, 0.7vw, 5px) solid #E15D44;
-            color: #493338;
+            background-color: #149C88;
+            border: clamp(3px, 0.7vw, 5px) solid #4C7E86;
+            color: #FFFFFF;
         }
 
         .them-2 {
@@ -226,6 +363,38 @@
         .you-1 {
             background-color: #149C88;
             border: clamp(3px, 0.7vw, 5px) solid #204544;
+        }
+
+        /* --- Mobile-Optimized Animations --- */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Optimize animations for mobile performance */
+        @media (max-width: 768px) {
+            .layer {
+                will-change: transform;
+                transform: translateZ(0);
+                backface-visibility: hidden;
+            }
+
+            .layer-3 {
+                animation-duration: 7s;
+            }
+
+            .layer-2 {
+                animation-duration: 6s;
+            }
+
+            .layer-1 {
+                animation-duration: 3.5s;
+            }
         }
 
         /* --- Media Queries for Fine-tuning --- */
@@ -321,7 +490,7 @@
         const THEM_COLOR = "#FDAC53";
         const YOU_COLOR = "#149C88";
 
-        function updateDiagram(isYouState) {
+        function updateDiagram(isYouState, isInitialLoad = false) {
             const container = document.getElementById('diagram-container');
             const titleElement = document.getElementById('diagram-title');
             const labelLeft = document.getElementById('label-left');
@@ -340,14 +509,66 @@
                 labelLeft.classList.remove('inactive');
                 labelRight.classList.add('inactive');
             }
+
+            // Add intro animation class
+            if (!isInitialLoad) {
+                container.classList.add('intro-animation');
+                titleElement.classList.add('shimmer');
+                
+                // Remove animation class after it completes
+                setTimeout(() => {
+                    container.classList.remove('intro-animation');
+                    titleElement.classList.remove('shimmer');
+                }, 2000);
+            }
+        }
+
+        // Add page load intro
+        function initializeWithIntro() {
+            const container = document.getElementById('diagram-container');
+            const titleElement = document.getElementById('diagram-title');
+            
+            // Start with elements hidden
+            container.style.opacity = '0';
+            titleElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                titleElement.style.transition = 'opacity 0.8s ease-out';
+                titleElement.style.opacity = '1';
+            }, 100);
+
+            setTimeout(() => {
+                container.style.transition = 'opacity 0.5s ease-out';
+                container.style.opacity = '1';
+                container.classList.add('intro-animation');
+                
+                setTimeout(() => {
+                    container.classList.remove('intro-animation');
+                }, 2000);
+            }, 400);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const toggle = document.getElementById('state-toggle');
-            updateDiagram(true);
+            
+            // Initial load with intro animation
+            updateDiagram(true, true);
+            initializeWithIntro();
 
             toggle.addEventListener('change', (e) => {
-                updateDiagram(e.target.checked);
+                updateDiagram(e.target.checked, false);
+            });
+
+            // Add touch feedback for mobile
+            const layers = document.querySelectorAll('.layer');
+            layers.forEach(layer => {
+                layer.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                }, { passive: true });
+                
+                layer.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                }, { passive: true });
             });
         });
     </script>
