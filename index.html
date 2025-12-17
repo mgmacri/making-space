@@ -43,10 +43,25 @@
         /* --- Toggle Switch Styling --- */
         .toggle-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: clamp(10px, 2vw, 15px);
+            gap: clamp(8px, 1.5vw, 12px);
             font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        #focus-label {
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #2A3244;
+            text-shadow: 0 0 8px #E15D44, 0 0 12px #E15D44;
+            transition: text-shadow 0.6s ease;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        #focus-label.you-glow {
+            text-shadow: 0 0 8px #4C7E86, 0 0 12px #4C7E86;
         }
 
         .toggle-switch-wrapper {
@@ -329,40 +344,26 @@
             color: white;
         }
 
-        /* --- Color Classes: THEM State --- */
-        .them-3 {
-            background-color: #FDAC53;
-            border: clamp(3px, 0.7vw, 5px) solid #FFA44A;
-            color: #493338;
+        /* --- Consistent Color Classes --- */
+        /* Your Experience - always teal */
+        .your-experience {
+            background-color: #149C88;
+            border: clamp(3px, 0.7vw, 5px) solid #204544;
+            color: #F4F5F0;
         }
 
-        .them-2 {
+        /* Their Experience - always bright orange */
+        .their-experience {
+            background-color: #FDAC53;
+            border: clamp(3px, 0.7vw, 5px) solid #E15D44;
+            color: #2E272A;
+        }
+
+        /* Your Relationship - always neutral gray */
+        .relationship {
             background-color: #D5D5D8;
             border: clamp(3px, 0.7vw, 5px) solid #8B8E8D;
             color: #2E272A;
-        }
-
-        .them-1 {
-            background-color: #149C88;
-            border: clamp(3px, 0.7vw, 5px) solid #4C7E86;
-        }
-
-        /* --- Color Classes: YOU State --- */
-        .you-3 {
-            background-color: #E3CADE;
-            border: clamp(3px, 0.7vw, 5px) solid #D33479;
-            color: #493338;
-        }
-
-        .you-2 {
-            background-color: #B1B6AD;
-            border: clamp(3px, 0.7vw, 5px) solid #817A65;
-            color: #2E272A;
-        }
-
-        .you-1 {
-            background-color: #149C88;
-            border: clamp(3px, 0.7vw, 5px) solid #204544;
         }
 
         /* --- Mobile-Optimized Animations --- */
@@ -449,6 +450,7 @@
         <h1 id="diagram-title">Repairing & Holding Space</h1>
 
         <div class="toggle-container">
+            <p id="focus-label" class="you-glow">focus</p>
             <div class="toggle-switch-wrapper">
                 <span class="toggle-option-left" id="label-left">Them</span>
                 <input type="checkbox" id="state-toggle" checked>
@@ -462,23 +464,23 @@
 
     <script>
         const THEM_STATE_HTML = `
-            <div class="layer layer-3 them-3">
-                <p class="layer-text layer-text-3">Their Experience</span></p>
-                <div class="layer layer-2 them-2">
+            <div class="layer layer-3 your-experience">
+                <p class="layer-text layer-text-3">Your Experience</span></p>
+                <div class="layer layer-2 relationship">
                     <p class="layer-text layer-text-2">Your Relationship</p>
-                    <div class="layer layer-1 them-1">
-                        <p class="layer-text layer-text-1">Your Experience</p>
+                    <div class="layer layer-1 their-experience">
+                        <p class="layer-text layer-text-1">Their Experience</p>
                     </div>
                 </div>
             </div>
         `;
 
         const YOU_STATE_HTML = `
-            <div class="layer layer-3 you-3">
+            <div class="layer layer-3 their-experience">
                 <p class="layer-text layer-text-3">Their Experience</p>
-                <div class="layer layer-2 you-2">
+                <div class="layer layer-2 relationship">
                     <p class="layer-text layer-text-2">Your Relationship</p>
-                    <div class="layer layer-1 you-1">
+                    <div class="layer layer-1 your-experience">
                         <p class="layer-text layer-text-1">Your Experience</p>
                     </div>
                 </div>
@@ -495,6 +497,7 @@
             const titleElement = document.getElementById('diagram-title');
             const labelLeft = document.getElementById('label-left');
             const labelRight = document.getElementById('label-right');
+            const focusLabel = document.getElementById('focus-label');
 
             if (isYouState) {
                 titleElement.textContent = YOU_TITLE;
@@ -502,12 +505,14 @@
                 titleElement.style.color = YOU_COLOR;
                 labelLeft.classList.add('inactive');
                 labelRight.classList.remove('inactive');
+                focusLabel.classList.add('you-glow');
             } else {
                 titleElement.textContent = THEM_TITLE;
                 container.innerHTML = THEM_STATE_HTML;
                 titleElement.style.color = THEM_COLOR;
                 labelLeft.classList.remove('inactive');
                 labelRight.classList.add('inactive');
+                focusLabel.classList.remove('you-glow');
             }
 
             // Add intro animation class
