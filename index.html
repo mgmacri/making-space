@@ -463,25 +463,26 @@
     <div id="diagram-container"></div>
 
     <script>
+        
         const THEM_STATE_HTML = `
-            <div class="layer layer-3 your-experience">
-                <p class="layer-text layer-text-3">Your Experience</span></p>
-                <div class="layer layer-2 relationship">
-                    <p class="layer-text layer-text-2">Your Relationship</p>
-                    <div class="layer layer-1 their-experience">
-                        <p class="layer-text layer-text-1">Their Experience</p>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        const YOU_STATE_HTML = `
             <div class="layer layer-3 their-experience">
                 <p class="layer-text layer-text-3">Their Experience</p>
                 <div class="layer layer-2 relationship">
                     <p class="layer-text layer-text-2">Your Relationship</p>
                     <div class="layer layer-1 your-experience">
                         <p class="layer-text layer-text-1">Your Experience</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const YOU_STATE_HTML = `
+            <div class="layer layer-3 your-experience">
+                <p class="layer-text layer-text-3">Your Experience</span></p>
+                <div class="layer layer-2 relationship">
+                    <p class="layer-text layer-text-2">Your Relationship</p>
+                    <div class="layer layer-1 their-experience">
+                        <p class="layer-text layer-text-1">Their Experience</p>
                     </div>
                 </div>
             </div>
